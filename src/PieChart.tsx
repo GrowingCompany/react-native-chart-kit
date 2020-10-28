@@ -15,6 +15,7 @@ export interface PieChartProps extends AbstractChartProps {
   center?: Array<number>;
   absolute?: boolean;
   hasLegend?: boolean;
+  renderLegend?: Function;
   style?: Partial<ViewStyle>;
   avoidFalseZero?: boolean;
 }
@@ -25,6 +26,7 @@ class PieChart extends AbstractChart<PieChartProps, PieChartState> {
   render() {
     const {
       style = {},
+      renderLegend,
       backgroundColor,
       absolute = false,
       hasLegend = true,
@@ -87,6 +89,7 @@ class PieChart extends AbstractChart<PieChartProps, PieChartState> {
             />
           ) : null}
           {hasLegend ? (
+
             <Text
               fill={c.item.legendFontColor}
               fontSize={c.item.legendFontSize}
@@ -97,7 +100,9 @@ class PieChart extends AbstractChart<PieChartProps, PieChartState> {
                 12 * 2
               }
             >
-              {`${value} ${c.item.name}`}
+              {renderLegend 
+                ? renderLegend({name: c.item.name, value:value}) 
+                :`${value} ${c.item.name}`}
             </Text>
           ) : null}
         </G>
